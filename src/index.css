@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.u-glow {
+  background-image: linear-gradient(
+    55deg,
+    hsl(0deg 100% 50%) 0%,
+    hsl(19deg 100% 50%) 12%,
+    hsl(28deg 100% 50%) 18%,
+    hsl(35deg 100% 50%) 22%,
+    hsl(42deg 100% 50%) 26%,
+    hsl(49deg 100% 50%) 29%,
+    hsl(55deg 100% 50%) 33%,
+    hsl(45deg 100% 67%) 36%,
+    hsl(31deg 100% 74%) 39%,
+    hsl(7deg 100% 81%) 42%,
+    hsl(336deg 94% 78%) 44%,
+    hsl(313deg 84% 72%) 47%,
+    hsl(294deg 91% 67%) 50%,
+    hsl(298deg 59% 70%) 53%,
+    hsl(308deg 30% 72%) 56%,
+    hsl(70deg 9% 71%) 58%,
+    hsl(108deg 43% 71%) 61%,
+    hsl(118deg 73% 69%) 64%,
+    hsl(130deg 100% 60%) 67%,
+    hsl(132deg 65% 63%) 71%,
+    hsl(151deg 35% 60%) 74%,
+    hsl(205deg 29% 59%) 78%,
+    hsl(234deg 49% 63%) 82%,
+    hsl(242deg 75% 62%) 88%,
+    hsl(237deg 100% 57%) 100%
+  );
+  background-clip: text;
+  color: transparent;
+  filter: blur(0px);
+  width: max-content;
+}
+.u-glow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: inherit;
+  filter: blur(50px);
+  z-index: -1;
+}
