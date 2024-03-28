@@ -5,7 +5,17 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        fadeDown: {
+          '0% 100%': { transform: 'translateY(-20px)', opacity: 0 },
+          '50%': {transform: 'translateY(0)', opacity: 1}
+        }
+      },
+      animation: {
+        fadeDown: 'fadeDown 2s ease-out'
+      }
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {

@@ -4,6 +4,7 @@ import Theme from "./components/Theme"
 import Footer from "./components/Footer"
 import Header from "./components/Header"
 import LocalHero from "./components/Local/Hero"
+import RemoteHero from "./components/Remote/Hero"
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <LocalHero />
       </Route>
       <Route path="/remote">
-        <h1>Remote</h1>
+        <RemoteHero />
       </Route>
       <Footer />
     </>

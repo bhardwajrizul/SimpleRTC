@@ -47,3 +47,36 @@
   filter: blur(50px);
   z-index: -1;
 }
+
+.u-tooltip {
+  position: relative;
+}
+
+.u-tooltip::after {
+  content: attr(tooltip-data);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 150%);
+  border: 1px solid greenyellow;
+  background-color: #2a323c;
+  border-radius: 5px;
+  padding: 10px 5px;
+  width: max-content;
+  color: white;
+  visibility: hidden;
+  opacity: 0;
+  animation: fadeDown 2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+@keyframes fadeDown {
+  0%,
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  50% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
