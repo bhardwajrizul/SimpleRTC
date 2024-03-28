@@ -7,9 +7,10 @@ import getMediaStream from "../../utils/getMediaStream";
 export default function Hero() {
 
     const [remoteOffer, setRemoteOffer] = useState(null);
-    const [localOffer, setLocalOffer] = useState(null); 
+    const [localOffer, setLocalOffer] = useState(null);
     const [permissionErr, setPermissionErr] = useState(null);
     const [err, setErr] = useState(null);
+    const [creatingAns, setCreatingAns] = useState(false);
 
     const remoteRef = useRef(null);
 
@@ -62,7 +63,12 @@ export default function Hero() {
     return (
         <div className="h-screen">
             <div className="flex flex-row flex-wrap p-4 justify-around">
-                <LocalOffer localOffer={localOffer} setLocalOffer={setLocalOffer} />
+                <LocalOffer
+                    localOffer={localOffer}
+                    setLocalOffer={setLocalOffer}
+                    creatingAns={creatingAns}
+                    setCreatingAns={setCreatingAns} 
+                    remoteRef={remoteRef}/>
                 <RemoteAnswer />
             </div>
         </div>

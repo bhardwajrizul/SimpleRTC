@@ -1,17 +1,28 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { configuration } from '../../utils/config';
 
-export default function LocalOffer({ localOffer, setLocalOffer }) {
+export default function LocalOffer({ localOffer, setLocalOffer, creatingAns, setCreatingAns, remoteRef }) {
+    const [err, setErr] = useState(null);
 
-    const generateAnswer = () => {
+    const generateAnswer = async () => {
+        setCreatingAns(true);
         // Check if the offer is valid
         try {
             const offer = JSON.parse(localOffer);
             if (offer.type !== "offer") {
                 throw new Error("Invalid Offer Type");
             }
+            remoteRef.current = remoteRef.current || new RTCPeerConnection(configuration);
+            await remoteRef.current.setRemoteDescription(JSON.parse(localOffer));
+            const answer = await remoteRef.current.createAnswer();
+            await remoteRef.current.setLocalDescription(answer);
+            setCreatingAns(false);
         } catch (error) {
             console.error("Invalid Offer", error);
             setLocalOffer("Invalid Offer");
+            setErr(error.message);
+            setCreatingAns(false);
             return;
         }
 
@@ -29,8 +40,13 @@ export default function LocalOffer({ localOffer, setLocalOffer }) {
             </textarea>
             <button
                 onClick={generateAnswer}
-                className={`btn btn-secondary btn-outline mt-8`}>
-                Check and Generate Answer
+                className={`${creatingAns && 'cursor-not-allowed'} btn btn-secondary btn-outline mt-8`}
+                disabled={creatingAns}>
+                {
+                    creatingAns 
+                    ? <span className="loading loading-spinner text-secondary"></span>
+                    : "Generate Answer"
+                }
             </button>
         </div>
     )
