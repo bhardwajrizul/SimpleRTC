@@ -19,10 +19,10 @@ Since SimpleRTC is created for learning purposes and not intended for production
 
 ## Screenshots 📸
 
-![Home](./images/home.jpg)
+![Home](./images/Home.jpg)
 *Home Page*
 
-![Call](./images/call.jpg)
+![Call](./images/Call.jpg)
 *Call Page*
 
 ## Demo 🌐
