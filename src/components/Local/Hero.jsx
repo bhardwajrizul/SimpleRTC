@@ -111,7 +111,7 @@ export default function Hero({ localRef, peerStreamForA }) {
                                     setShowTooltip={setShowTooltip}
                                 />
                                 <div className="flex flex-col items-center justify-center">
-                                    <h1 className='text-cyan-600 text-xl underline mb-2'><span className='font-bold text-red-700 no-underline'>Step 2:</span> Paste The answer shared by other user!</h1>
+                                    <h1 className='text-cyan-600 text-xl underline mb-2 px-4'><span className='font-bold text-red-700 no-underline'>Step 2:</span> Paste The answer shared by other user!</h1>
 
                                     <h1 className="text-2xl font-bold mb-1 underline ">Paste Answer Below</h1>
                                     <textarea

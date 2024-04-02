@@ -5,8 +5,8 @@ export default function Hero() {
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content text-center">
                 <div className="max-w-xl">
-                    <h1 className="text-8xl font-bold">Hello there</h1>
-                    <h2 className="text-5xl font-bold u-glow mx-auto">Welcome to SimpleRTC</h2>
+                    <h1 className="text-4xl lg:text-8xl font-bold">Hello there</h1>
+                    <h2 className="text-2xl lg:text-5xl font-bold u-glow mx-auto">Welcome to SimpleRTC</h2>
                     <p className="pt-6">A video call application built on top of
                         <span className="underline ms-1">
                             <a href="https://webrtc.org/" target="_blank">

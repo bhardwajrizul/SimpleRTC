@@ -25,7 +25,6 @@ function App() {
 
   return (
     <>
-      {console.log(configuration)}
       <Header />
       <Theme />
       <Route path="/">
