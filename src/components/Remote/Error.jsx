@@ -11,6 +11,6 @@ export default function Error({err}) {
     )
 }
 
-Error.propsType = {
-    err: PropTypes.string.isRequired
+Error.propTypes = {
+    err: PropTypes.string
 }

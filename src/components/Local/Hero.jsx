@@ -1,16 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
+import { useEffect, useState, useContext } from "react";
 import Loading from "./Loading";
 import { configuration } from '../../utils/config'
 import getMediaStream from "../../utils/getMediaStream";
 import Error from "./Error";
 import LocalOffer from "./LocalOffer";
 
-export default function Hero() {
+import NavigationContext from "../../Provider/Navigaton";
+
+
+export default function Hero({ localRef, peerStreamForA }) {
     const [localOffer, setLocalOffer] = useState(false);
+    const [remoteAnswer, setRemoteAnswer] = useState(null);
     const [permissionErr, setPermissionErr] = useState(null);
     const [err, setErr] = useState(null);
     const [showTooltip, setShowTooltip] = useState(false);
-    const localRef = useRef(null);
+
+    const { navigate } = useContext(NavigationContext);
 
     useEffect(() => {
         const setupConnection = async () => {
@@ -22,7 +28,7 @@ export default function Hero() {
 
             // Open data channel and log the event
             dataChannel.onopen = (e) => {
-                console.log("Data Channel Opened", e.channel);
+                console.log("Data Channel Opened");
             };
 
             // Add event listener to handle "onicecandidate" event for local-connection
@@ -39,21 +45,27 @@ export default function Hero() {
             // Set up local media stream
             // This should be done before we set the offer otherwise causes bugs in chrome 
             try {
-                // const localStream = await getMediaStream();
-                // if (localStream) {
-                //     setPermissionErr(null);
-                //     localStream.getTracks().forEach(track => {
-                //         localRef.current.addTrack(track, localStream);
-                //     });
-                // } else {
-                //     setPermissionErr("Permission Denied");
-                //     setLocalOffer("Permission Denied");
-                // }
+                const localStream = await getMediaStream();
+                if (localStream) {
+                    setPermissionErr(null);
+                    localStream.getTracks().forEach(track => {
+                        localRef.current.addTrack(track, localStream);
+                    });
+                } else {
+                    setPermissionErr("Permission Denied");
+                    setLocalOffer("Permission Denied");
+                }
             } catch (error) {
                 setErr(error.message);
                 setLocalOffer("Error creating offer or setting local description");
                 console.error("Error in permissions", error);
             }
+
+            // Add event listener to handle "ontrack" event for local-connection
+            // Triggered when peer A receives media stream from peer B
+            localRef.current.ontrack = (event) => {
+                peerStreamForA.current.addTrack(event.track);
+            };
 
             // Create offer and set local description
             const offer = await localRef.current.createOffer();
@@ -64,6 +76,22 @@ export default function Hero() {
         setupConnection();
     }, []);
 
+    const handleStartCallLocal = async () => {
+        try {
+            const answer = JSON.parse(remoteAnswer);
+            if (answer.type !== "answer") {
+                throw new Error("Invalid Answer Type");
+            }
+            await localRef.current.setRemoteDescription(answer);
+            console.log("Remote Description Set for A: ", localRef.current.remoteDescription);
+            navigate('/call');
+        } catch (error) {
+            console.error("Invalid Answer", error);
+            setRemoteAnswer("Invalid Answer")
+            setErr(error.message);
+            return;
+        }
+    }
 
     return (
         !localOffer
@@ -74,7 +102,7 @@ export default function Hero() {
                     {err && <Error err={err} />}
                     {
                         !err && localOffer &&
-                        <div className="h-screen">
+                        <div className="min-h-screen">
                             <div className="flex flex-row flex-wrap p-4 justify-around">
                                 <LocalOffer
                                     localOffer={localOffer}
@@ -83,12 +111,22 @@ export default function Hero() {
                                     setShowTooltip={setShowTooltip}
                                 />
                                 <div className="flex flex-col items-center justify-center">
+                                    <h1 className='text-cyan-600 text-xl underline mb-2'><span className='font-bold text-red-700 no-underline'>Step 2:</span> Paste The answer shared by other user!</h1>
+
                                     <h1 className="text-2xl font-bold mb-1 underline ">Paste Answer Below</h1>
-                                    <textarea className="textarea textarea-success cursor-default" rows={10} cols={40}>
-                                        
+                                    <textarea
+                                        className="textarea textarea-success cursor-default"
+                                        rows={10}
+                                        cols={40}
+                                        value={remoteAnswer || ""}
+                                        onChange={e => setRemoteAnswer(e.target.value)}>
+
                                     </textarea>
+                                    <h1 className='text-cyan-600 text-xl underline my-1'><span className='font-bold text-red-700 no-underline'>Step 3:</span> Start the call as the host</h1>
                                     <button
-                                        className={`btn btn-success btn-outline mt-8`}>
+                                        className={`btn btn-success btn-outline mt-2 w-96`}
+                                        onClick={handleStartCallLocal}>
+
                                         Start Call
                                     </button>
                                 </div>
@@ -97,4 +135,11 @@ export default function Hero() {
                     }
                 </div>
     );
+}
+
+
+Hero.propTypes = {
+    localRef: PropTypes.object,
+    peerStreamForA: PropTypes.object,
+    setStream: PropTypes.func
 }

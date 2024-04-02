@@ -80,3 +80,9 @@
     visibility: visible;
   }
 }
+
+.video-element {
+  max-width: 100%; /* Ensures video doesn't exceed container width */
+  max-height: 100%; /* Ensures video doesn't exceed container height */
+  /* Add any other styles you want to apply to your video elements */
+}
