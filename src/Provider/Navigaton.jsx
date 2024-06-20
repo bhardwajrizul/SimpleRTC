@@ -17,7 +17,7 @@ function NavigationProvider({children}) {
                 setCurrentPath(window.location.pathname);
             })
         }
-    })
+    }, []);
 
     const navigate = (to) => {
         window.history.pushState({}, '', to);

@@ -6,6 +6,7 @@ import Header from "./components/Header"
 import LocalHero from "./components/Local/Hero"
 import RemoteHero from "./components/Remote/Hero"
 import CallHero from "./components/Call/Hero"
+import LocalFBHero from "./components/LocalFB/Hero"
 import { useEffect, useRef } from "react"
 import { configuration } from "./utils/config"
 
@@ -42,6 +43,9 @@ function App() {
           remoteRef={remoteRef}
           peerStreamForA={peerStreamForA}
           peerStreamForB={peerStreamForB} />
+      </Route>
+      <Route path="/localfirebase">
+        <LocalFBHero peerStreamForA={peerStreamForA} localRef={localRef} />
       </Route>
       <Footer />
     </>
