@@ -7,6 +7,7 @@ import { initializeApp } from "firebase/app";
 const firebaseConfig = {
   apiKey: "AIzaSyDv9HConB5ukz3R-94zV-jj7pcroPovuO4",
   authDomain: "simplertc-rizul.firebaseapp.com",
+  databaseURL: "https://simplertc-rizul-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "simplertc-rizul",
   storageBucket: "simplertc-rizul.appspot.com",
   messagingSenderId: "404996909436",
@@ -14,4 +15,4 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
